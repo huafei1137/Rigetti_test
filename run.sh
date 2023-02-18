@@ -1,0 +1,1 @@
+python rigetti_test.py > output.txt
