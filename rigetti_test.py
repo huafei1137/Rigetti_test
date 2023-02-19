@@ -2,7 +2,7 @@ import qiskit
 
 from qiskit import QuantumRegister, ClassicalRegister
 from qiskit.providers.fake_provider import FakeMumbai, FakeCasablanca
-#from qiskit_rigetti import RigettiQCSProvider, QuilCircuit
+from qiskit_rigetti import RigettiQCSProvider, QuilCircuit
 
 
 def crosstalk_circuit(mylist):
@@ -90,12 +90,12 @@ def run_program(backend, shots):
         # physical = generate_random_crosstalk_pair(backend)
         qc_c = crosstalk_circuit(mylist)
         qc_n = no_crosstalk_circuit(mylist)
-        qc_c_c = qiskit.transpile(
-            qc_c, backend=backend, initial_layout=physical, scheduling_method="asap"
-        )
-        qc_n_c = qiskit.transpile(
-            qc_n, backend=backend, initial_layout=physical, scheduling_method="asap"
-        )
+        # qc_c_c = qiskit.transpile(
+        #     qc_c, backend=backend, initial_layout=physical, scheduling_method="asap"
+        # )
+        # qc_n_c = qiskit.transpile(
+        #     qc_n, backend=backend, initial_layout=physical, scheduling_method="asap"
+        # )
         # pm = PassManager([ALAPSchedule(dt),
         #           DynamicalDecoupling(dt, dd_sequence)])
         # circ_dd = pm.run(qc_c)
@@ -103,8 +103,8 @@ def run_program(backend, shots):
         # qc_c_c.draw(output='mpl')
         print(f'{physical} qubit pair sent to the job')
         save_index[i] = physical
-        job_result_crosstalk = backend.run(qc_c_c, shots=shots)
-        job_result_no = backend.run(qc_n_c, shots=shots)
+        job_result_crosstalk = backend.run(qc_c, shots=shots)
+        job_result_no = backend.run(qc_n, shots=shots)
         # job_result_dd = backend.run(qc_c_dd,shots=shots)
         res_base[i] = job_result_crosstalk
         res_our[i] = job_result_no
